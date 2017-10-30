@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Index{% endblock %}
+{% block head %}
+<script src="/static/index.js">window.onload = addTableHandlers()</script>
+{% endblock %}
+{% block contents %}
+{% for cont in data %}
+<h3 class="header-name">{{cont.name}}</h3>
+<a href="{{cont.url}}">{{cont.url}}</a>
+<table class="standings">
+  <tr>
+    <th></th>
+    {% for task in cont.tasks %}
+    <th class="table-task">{{task}}</th>
+    {% endfor %}
+  </tr>
+  {% for pers in cont.team %}
+    <tr>
+      <th class="table-name">{{pers.name}}</th>
+      {% for task in pers.done %}
+        <th class="table-done{{task}}"></th>
+      {% endfor %}
+    </tr>
+  {% endfor %}
+</table>
+<hr>
+{% endfor %}
+{% endblock %}

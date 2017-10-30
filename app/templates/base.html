@@ -1,0 +1,27 @@
+<html>
+  <head>
+    <title>{% block title %}{% endblock %} | Дорешка #/bin/bash</title>
+    <link rel="stylesheet" type="text/css" href="/static/index.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    {% block head %}{% endblock %}
+  </head>
+  <body>
+    <div id="side-nav">
+      {% for link in navigation %}
+      {% if link.active %}
+      <a href="{{link.url}}" class="side-active">{{link.name}}</a>
+      {% else %}
+      <a href="{{link.url}}">{{link.name}}</a>
+      {% endif %}
+      <br>
+      {% endfor %}
+    </div>
+    <div id="content">
+      <div id="header">Welcome to Doreshka</div>
+      <div id="cont-holder">
+	{% block contents %}{% endblock %}
+      </div>
+      <div id="footer">Made by DDD Danil, 2017.</div>
+    </div>
+  </body>
+</html>

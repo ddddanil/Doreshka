@@ -1,0 +1,69 @@
+div#side-nav {
+    float: left;
+    width: 10%;
+    border-right: 3px solid black;
+    height: 100%;
+    padding: 5px;
+    margin: 0px 10px 0px 0px;
+    position: fixed;
+}
+
+div#content {
+    position: absolute;
+    right: 0;
+    width: 88%;
+}
+
+a.side-active {
+    pointer-events: none;
+    cursor: default;
+    color: black;
+    text: bold;
+}
+
+table.standings {
+    table-layout: fixed;
+    border-collapse: collapse;
+    border: 2px solid black;
+    width: 95%;
+    padding: 2px
+}
+
+th.table-task, td.table-task {
+    font-family: sans-serif;
+    text-align: center;
+}
+
+th.table-name, td.table-name {
+    text: bold;
+    width: 100px;
+}
+
+th.table-done0, td.table-done0 {
+    background-color: white;
+}
+
+th.table-done1, td.table-done1 {
+    background-color: green;
+}
+
+th.table-done2, td.table-done2 {
+    background-color: orange;
+}
+
+h3.header-name {
+    margin: 5px;
+}
+
+input.button-neu {
+    font-family: sans-serif;
+}
+
+input.button-done {
+    font-family: sans-serif;
+    border-style: solid;
+    border-width: 6px 17px 6px 17px;
+    border-color: chartreuse;
+    border-radius: 2px;
+    background-color: chartreuse;
+}

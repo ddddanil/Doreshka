@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Add Contest{% endblock %}
+{% block head %}
+<script src="/static/add_table.js"></script>
+{% endblock %}
+{% block contents %}
+<h3 class="header-name">Add Contest</h3>
+<form name="set_name">
+  <input type="text" name="cont_name" placeholder="Name" required="True">
+  <input type="button" name="set" value="Set" onclick="return set_new_name()" class="button-neu">
+</form>
+<form name="set_url">
+  <input type="text" name="cont_url" placeholder="URL" required="True">
+  <input type="button" name="set" value="Set" onclick="return set_new_url()" class="button-neu">
+</form>
+<hr>
+<form name="add_task">
+  <input type="text" name="task_name" placeholder="Task" required="True">
+  <input type="button" name="add" value="Add" onclick="return add_new_task()" class="button-neu">
+</form>
+<form name="add_person">
+  <input type="text" name="pers_name" placeholder="Person name" required="True">
+  <input type="button" name="add" value="Add" onclick="return add_new_person()" class="button-neu">
+</form>
+<table class="standings" id="the-table">
+  <tr>
+    <th></th>
+  </tr>
+</table>
+<br>
+<form name="submit_table">
+  <input type="button" name="submit" value="Submit Contest" onclick="return submit_table_post()" class="button-neu">
+</form>
+{% endblock %}
