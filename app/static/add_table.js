@@ -1,4 +1,4 @@
-var standing = {
+var standing = { // текущее состояние таблицы
     name: '',
     url: '',
     tasks: [],
@@ -6,17 +6,17 @@ var standing = {
     done: []
 }
 
-var ClickHandler = function(row, col, cell) {
+var ClickHandler = function(row, col, cell) { // Функция которая подготавливает хендлеры
     return function() {
 	if(standing.done[row][col] === 1)
 	    standing.done[row][col] = 0;
 	else
 	    standing.done[row][col] = 1;
-	cell.className = "table-done" + standing.done[row][col];
+	cell.className = "table-done" + standing.done[row][col]; // можно передачу cell заменить на this
     }
 }
 
-function set_new_name()
+function set_new_name() // Обновляем название
 {
     var new_name = document.forms['set_name']['cont_name'].value;
     var sub_button = document.forms['set_name']['set']
@@ -26,7 +26,7 @@ function set_new_name()
 	sub_button.className = "button-done";
 }
 
-function set_new_url()
+function set_new_url() // обновляем url. Можно еще сделать доп проверку доступности/валидности через requests.head
 {
     var new_url = document.forms['set_url']['cont_url'].value;
     var sub_button = document.forms['set_url']['set'];
@@ -36,12 +36,12 @@ function set_new_url()
 	sub_button.className = "button-done";
 }
 
-function add_new_person()
+function add_new_person() // Достраиваем новую строку
 {
     var table = document.getElementById('the-table');
     var pers_name = document.forms['add_person']['pers_name'].value;
     document.forms['add_person']['pers_name'].value = '';
-    document.forms['add_person']['pers_name'].focus();
+    document.forms['add_person']['pers_name'].focus();     // Для удобности ввод
     if(pers_name === '')
 	return;
     var row = table.insertRow(table.rows.length);
@@ -59,12 +59,13 @@ function add_new_person()
 	}
     }
 }
-
-function add_new_task() {
+а
+function add_new_task() // вставляем ячейку в каждую строку (беееееее)
+{
     var table = document.getElementById('the-table');
     var task_name = document.forms['add_task']['task_name'].value;
     document.forms['add_task']['task_name'].value = '';
-    document.forms['add_task']['task_name'].focus();
+    document.forms['add_task']['task_name'].focus();  // Для удобности ввода
     if(task_name === '')
 	return;
     standing.tasks.push(task_name);
@@ -82,30 +83,31 @@ function add_new_task() {
     }
 }
  
-function create_cell(cell, text, style) {
+function create_cell(cell, text, style) // Заполняем новую ячейку как надо
+{
     var text = document.createTextNode(text);
     cell.appendChild(text);
     cell.setAttribute('class', style);
 }
 
-function submit_table_post()
+function submit_table_post() // проверяем (говняно) и отправляем (тоже говняно) таблицу
 {
     if(standing.name === '' || standing.url === '' || standing.team.length !== standing.done.length || standing.tasks.length !== standing.done[0].length)
     {
 	alert("Invalid table");
 	return;
     }
-    var post_team = []
-    for(i = 0; i < standing.team.length; ++i)
-	post_team.push({name: standing.team[i], done: standing.done[i]});
-    var post_obj = {
-	name: standing.name,
+    var post_team = [] // Даня забыл структуру сохраненного контеста, 
+    for(i = 0; i < standing.team.length; ++i)  // лень было переписывать сверху, поэтому 
+	post_team.push({name: standing.team[i], done: standing.done[i]}); 
+    var post_obj = { // переделываем обьект перед отправкой
+	name: standing.name, // Даня оборался. Кузнецов(с)
 	url: standing.url,
 	tasks: standing.tasks,
 	team: post_team
     }
     var stringified = JSON.stringify(post_obj);
-    $.ajax({
+    $.ajax({ // Обычный $.post() не катит (((  (говно какое то у него)
 	type: 'POST',
 	url: '/submittable',
 	contentType: 'application/json; charset=utf-8',

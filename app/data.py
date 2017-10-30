@@ -1,6 +1,10 @@
 import json
 
 def add_contest(new_data):
+    '''
+    Эта функция записывает новый контест в конец data.json
+    new_data : словарь со значениями контеста
+    '''
     with open("app/data.json", "r") as f:
         raw_data = f.read();
     data = json.loads(raw_data)
@@ -11,6 +15,12 @@ def add_contest(new_data):
         f.write(new_raw_data)        
 
 def new_submission(cont, name, task):
+    '''
+    Эта функция обновляет задачу как дорешивание.
+    cont : номер контеста по порядку. Основывается на том что браузер получил список контестов в том же порядке (возможна бага)
+    name : имя сдающего. Неналичие данного в data.json -> contest ведет в никуда (возможна бага)
+    task : название сданного таска. Опять же не проверяется. (возможно бага)
+    '''
     with open("app/data.json", "r") as f:
         raw_data = f.read();
     data = json.loads(raw_data)
@@ -38,6 +48,9 @@ def new_submission(cont, name, task):
     return str(response)
 
 def get_data():
+    '''
+    Эта функция отдает распарсенный data.json
+    '''
     with open("app/data.json", "r") as f:
         raw_data = f.read();
         data = json.loads(raw_data)

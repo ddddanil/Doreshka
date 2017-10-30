@@ -59,9 +59,9 @@ input.button-neu {
     font-family: sans-serif;
 }
 
-input.button-done {
-    font-family: sans-serif;
-    border-style: solid;
+input.button-done {  // Почему то (минимум в файерфоксе) 
+    font-family: sans-serif; // когда я менял класс кнопки она ломалась
+    border-style: solid;     // так что переделываем заного
     border-width: 6px 17px 6px 17px;
     border-color: chartreuse;
     border-radius: 2px;

@@ -1,5 +1,5 @@
 
-function addTableHandlers()
+function addTableHandlers() // Просто бегаем по всем таблицам вешаем клик хендлеры
 {
     var tables = document.getElementsByClassName("standings");
     for(table = 0; table < tables.length; ++table)
@@ -33,4 +33,4 @@ function addTableHandlers()
     }
 }
 
-window.onload = addTableHandlers;
+window.onload = addTableHandlers; // Запускаем после загрузки (дубируется в html)
