@@ -68,6 +68,6 @@ def get_table():
     jsdata = request.get_json()
     if jsdata:
         add_contest(jsdata)
-        return '', 200
+        return '{"done": 1}', 200
     else:
-        return '', 422
+        return '{"done": 0}', 422

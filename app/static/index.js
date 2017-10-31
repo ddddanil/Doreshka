@@ -38,7 +38,7 @@ function delete_table(number) // Удалить контест
     {
 	$.post("/deletetable", {cont: number - 1}); // jinja считает форики с 1 (((
     }
-    window.loaction.reload(true)
+    window.location.reload(true)
 }
 
 window.onload = addTableHandlers; // Запускаем после загрузки (дубируется в html)

@@ -59,7 +59,7 @@ function add_new_person() // Достраиваем новую строку
 	}
     }
 }
-а
+
 function add_new_task() // вставляем ячейку в каждую строку (беееееее)
 {
     var table = document.getElementById('the-table');
@@ -114,7 +114,15 @@ function submit_table_post() // проверяем (говняно) и отпр�
 	dataType: 'json',
 	data: stringified,
 	success: function(data, status, xhr) {
+	    console.log("Success!!! ", status);
 	    window.location.replace("/index");
+	    window.loaction.reload(true)
+	},
+	complete: function(xhr, status) {
+	    console.log("Complete ", status);
+	},
+	error: function(xhr, status, error) {
+	    console.log("Error ( ", status, "  ", error);
 	}
     });
 }
