@@ -114,7 +114,7 @@ function submit_table_post() // проверяем (говняно) и отпр�
 	dataType: 'json',
 	data: stringified,
 	success: function(data, status, xhr) {
-	    window.location.href = "/index";
+	    window.location.replace("/index");
 	}
     });
 }

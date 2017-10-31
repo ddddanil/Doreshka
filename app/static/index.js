@@ -1,4 +1,3 @@
-
 function addTableHandlers() // Просто бегаем по всем таблицам вешаем клик хендлеры
 {
     var tables = document.getElementsByClassName("standings");
@@ -31,6 +30,15 @@ function addTableHandlers() // Просто бегаем по всем табл�
 	    }
 	}
     }
+}
+
+function delete_table(number) // Удалить контест
+{
+    if(confirm("Delete Contest?"))  // Спросить - обязательно
+    {
+	$.post("/deletetable", {cont: number - 1}); // jinja считает форики с 1 (((
+    }
+    window.loaction.reload(true)
 }
 
 window.onload = addTableHandlers; // Запускаем после загрузки (дубируется в html)

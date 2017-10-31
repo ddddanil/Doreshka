@@ -44,13 +44,25 @@ def addTable():
     '''Renders add_table page'''
     return render_template("add_table.html", navigation = setActive('Add Contest'));
 
-@app.route('/submit', methods = ['POST'])
+@app.route('/deletetable', methods = ['POST', 'HEAD'])
+def delete_table():
+    '''Deletes contest'''
+    jsdata = request.form
+    contest = jsdata['cont']
+    try:
+        contest = int(contest)
+        delete_contest(contest)
+    except ValueError:
+        delete_contest(contest)
+    return '', 200
+
+@app.route('/submit', methods = ['POST', 'HEAD'])
 def get_submit():
     '''Recieves submitions'''
     jsdata = request.form
     return new_submission(int(jsdata['cont']), jsdata['name'], jsdata['task'])
 
-@app.route('/submittable', methods = ['POST'])
+@app.route('/submittable', methods = ['POST', 'HEAD'])
 def get_table():
     '''Recieves new tables'''
     jsdata = request.get_json()

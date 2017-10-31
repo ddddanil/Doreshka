@@ -14,6 +14,23 @@ def add_contest(new_data):
     with open("app/data.json", "w") as f:
         f.write(new_raw_data)        
 
+def delete_contest(cont):
+    '''
+    Эта функция удаляет контест из data.json по идентификатору cont
+    cont : str - название контеста
+           int - номер контеста
+    '''
+    with open("app/data.json", "r") as f:
+        raw_data = f.read();
+    data = json.loads(raw_data)
+    if type(cont) == int:    # Попа работает по индексу - классно
+        data.pop(cont)
+    else:
+        data = [d for d in data if d['name'] != cont]  # А это из-за магии питона работает не медленно
+    new_raw_data = json.dumps(data)
+    with open("app/data.json", "w") as f:
+        f.write(new_raw_data)
+
 def new_submission(cont, name, task):
     '''
     Эта функция обновляет задачу как дорешивание.
@@ -28,12 +45,12 @@ def new_submission(cont, name, task):
     contest = data[cont]
     taskno = 0
     response = 0
-    for ctask in contest['tasks']:
+    for ctask in contest['tasks']:   # Таск имеет название, но номер мы не храним
         if ctask is task: break
         taskno += 1
     for person in contest['team']:
         if person['name'] == name:
-            if person['done'][taskno] is 0:
+            if person['done'][taskno] is 0:  # меняем решил/дорешал, "начальное" решение не трогаем
                 person['done'][taskno] = 2
                 response = 2
             elif person['done'][taskno] is 2:
