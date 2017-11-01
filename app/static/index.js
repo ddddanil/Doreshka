@@ -24,7 +24,8 @@ function addTableHandlers() // Просто бегаем по всем табл�
 		    var success = function(data) {
 			cell.className = "table-done" + data;
 		    }
-		    $.post("/submit", cur_data, success);
+		    $.post("/submit", cur_data, success)
+			.fail(post_error);
 		}}
 		cur_cell.onclick = ClickHandler(table, task, name, cur_cell);
 	    }
@@ -34,11 +35,14 @@ function addTableHandlers() // Просто бегаем по всем табл�
 
 function delete_table(number) // Удалить контест
 {
+    var suc = function() {
+	window.location.reload(true);
+    }
     if(confirm("Delete Contest?"))  // Спросить - обязательно
     {
-	$.post("/deletetable", {cont: number - 1}); // jinja считает форики с 1 (((
+	$.post("/deletetable", {cont: number - 1}, suc)  // jinja считает форики с 1 (((
+	    .fail(post_error);
     }
-    window.location.reload(true)
 }
 
 window.onload = addTableHandlers; // Запускаем после загрузки (дубируется в html)

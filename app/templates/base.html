@@ -3,6 +3,7 @@
     <title>{% block title %}{% endblock %} | Дорешка #/bin/bash</title>
     <link rel="stylesheet" type="text/css" href="/static/index.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="/static/base.js"></script>
     {% block head %}{% endblock %}
   </head>
   <body>
@@ -15,6 +16,10 @@
       {% endif %}
       <br>
       {% endfor %}
+      <form name="get_pass">
+	<input type="text" name="pass" placeholder="Password" class="side-prompt">
+	<input type="button" name="check" value="Submit" onclick="return check_passwd()" class="button-neu">
+      </form>
     </div>
     <div id="content">
       <div id="header">Welcome to Doreshka</div>

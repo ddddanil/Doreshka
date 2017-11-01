@@ -8,6 +8,10 @@ div#side-nav {
     position: fixed;
 }
 
+input.side-prompt {
+    width: 100%;
+}
+
 div#content {
     position: absolute;
     right: 0;

@@ -1,6 +1,7 @@
 from app import app
-from flask import render_template, request, redirect
+from flask import render_template, request, redirect, make_response
 from app.data import *
+from hashlib import sha1
 
 def getLinks():
     '''
@@ -23,6 +24,11 @@ def setActive(active):
             link['active'] = True
             break
     return links
+
+def password():
+    passwd = 'binbashrules'
+    hashpswd = sha1(passwd.encode('utf-8')).hexdigest()
+    return hashpswd
 
 @app.route('/')
 @app.route('/index')
@@ -47,6 +53,9 @@ def addTable():
 @app.route('/deletetable', methods = ['POST', 'HEAD'])
 def delete_table():
     '''Deletes contest'''
+    passwd = request.cookies.get('Access')
+    if not passwd or passwd != password():  # сикурити
+        return '{"Access": "denied"}', 403
     jsdata = request.form
     contest = jsdata['cont']
     try:
@@ -59,15 +68,31 @@ def delete_table():
 @app.route('/submit', methods = ['POST', 'HEAD'])
 def get_submit():
     '''Recieves submitions'''
+    passwd = request.cookies.get('Access')
+    if not passwd or passwd != password():  # сикурити
+        return '{"Access": "denied"}', 403
     jsdata = request.form
     return new_submission(int(jsdata['cont']), jsdata['name'], jsdata['task'])
 
 @app.route('/submittable', methods = ['POST', 'HEAD'])
 def get_table():
     '''Recieves new tables'''
+    passwd = request.cookies.get('Access')
+    if not passwd or passwd != password():  # сикурити
+        return '{"Access": "denied"}', 403
     jsdata = request.get_json()
     if jsdata:
         add_contest(jsdata)
         return '{"done": 1}', 200
     else:
         return '{"done": 0}', 422
+
+@app.route('/getpass', methods = ['POST', 'HEAD'])
+def get_pass():
+    '''Checks a password to give change access'''
+    jsdata = request.form
+    response = make_response('{"done":1}', 200)
+    passwd = jsdata['password']
+    hashpswd = sha1(passwd.encode('utf-8')).hexdigest()
+    response.set_cookie('Access', hashpswd)
+    return response

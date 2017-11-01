@@ -208,8 +208,6 @@ function submit_table_post() // проверяем (говняно) и отпр�
 	complete: function(xhr, status) {
 	    console.log("Complete ", status);
 	},
-	error: function(xhr, status, error) {
-	    console.log("Error ( ", status, "  ", error);
-	}
+	error: post_error
     });
 }
