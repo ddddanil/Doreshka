@@ -1,21 +1,11 @@
 div#side-nav {
-    float: left;
-    width: 10%;
     border-right: 3px solid black;
     height: 100%;
     padding: 5px;
-    margin: 0px 10px 0px 0px;
-    position: fixed;
 }
 
 input.side-prompt {
     width: 100%;
-}
-
-div#content {
-    position: absolute;
-    right: 0;
-    width: 88%;
 }
 
 a.side-active {
@@ -23,6 +13,11 @@ a.side-active {
     cursor: default;
     color: black;
     text: bold;
+}
+
+div#content {
+    padding: 0px 0px 0px 5px;
+    float: right;
 }
 
 table.standings {
