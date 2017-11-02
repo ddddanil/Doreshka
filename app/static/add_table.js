@@ -6,9 +6,10 @@ var standing = { // текущее состояние таблицы
     done: []
 }
 
-var table
+var table;
 window.onload = function() {
     table = document.getElementById('the-table');
+    setSidebar();
 }
 
 function submitClickHandler(row, col) // Функция которая подготавливает хендлеры для задач
@@ -66,7 +67,7 @@ function set_new_name() // Обновляем название
     if(new_name !== '')
 	standing.name = new_name;
     if(standing.name !== '')
-	sub_button.className = "button-done";
+	sub_button.className += " button-done";
 }
 
 function set_new_url() // обновляем url. Можно еще сделать доп проверку доступности/валидности через requests.head
@@ -77,7 +78,7 @@ function set_new_url() // обновляем url. Можно еще сделат
     if(new_url !== '')
 	standing.url = new_url;
     if(standing.url !== '')
-	sub_button.className = "button-done";
+	sub_button.className += " button-done";
 }
 
 function add_new_person() // Достраиваем новую строку
