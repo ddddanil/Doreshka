@@ -1,18 +1,25 @@
 import json
 
+def loadData():
+    with open("app/data.json", "r") as f:
+        raw_data = f.read();
+    return json.loads(raw_data)
+
+def writeData(data):
+    raw_data = json.dumps(data)
+    with open("app/data.json", "w") as f:
+        f.write(raw_data)
+
 def add_contest(new_data):
     '''
     Эта функция записывает новый контест в конец data.json
     new_data : словарь со значениями контеста
     '''
-    with open("app/data.json", "r") as f:
-        raw_data = f.read();
-    data = json.loads(raw_data)
+    data = loadData()
 #    new_data_enc = json.loads(new_data)
     data.append(new_data)
-    new_raw_data = json.dumps(data)
-    with open("app/data.json", "w") as f:
-        f.write(new_raw_data)        
+    writeData(data)
+    
 
 def delete_contest(cont):
     '''
@@ -20,16 +27,12 @@ def delete_contest(cont):
     cont : str - название контеста
            int - номер контеста
     '''
-    with open("app/data.json", "r") as f:
-        raw_data = f.read();
-    data = json.loads(raw_data)
+    data = loadData()
     if type(cont) == int:    # Попа работает по индексу - классно
         data.pop(cont)
     else:
         data = [d for d in data if d['name'] != cont]  # А это из-за магии питона работает не медленно
-    new_raw_data = json.dumps(data)
-    with open("app/data.json", "w") as f:
-        f.write(new_raw_data)
+    writeData(data)
 
 def new_submission(cont, name, task):
     '''
@@ -38,10 +41,7 @@ def new_submission(cont, name, task):
     name : имя сдающего. Неналичие данного в data.json -> contest ведет в никуда (возможна бага)
     task : название сданного таска. Опять же не проверяется. (возможно бага)
     '''
-    with open("app/data.json", "r") as f:
-        raw_data = f.read();
-    data = json.loads(raw_data)
-#    print(data)
+    data = loadData()
     contest = data[cont]
     taskno = 0
     response = 0
@@ -59,16 +59,11 @@ def new_submission(cont, name, task):
             else:
                 response = 1
             break
-    new_raw_data = json.dumps(data)
-    with open("app/data.json", "w") as f:
-        f.write(new_raw_data)
+    writeData(data)
     return str(response)
 
 def get_data():
     '''
     Эта функция отдает распарсенный data.json
     '''
-    with open("app/data.json", "r") as f:
-        raw_data = f.read();
-        data = json.loads(raw_data)
-        return data
+    return loadData()

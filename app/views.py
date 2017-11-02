@@ -53,22 +53,22 @@ def addTable():
 @app.route('/deletetable', methods = ['POST', 'HEAD'])
 def delete_table():
     '''Deletes contest'''
-    passwd = request.cookies.get('Access')
+    passwd = request.cookies.get('Access')   # Надо бы сделать проверку поизящнее, а то в каждой функции проверяю
     if not passwd or passwd != password():  # сикурити
         return '{"Access": "denied"}', 403
     jsdata = request.form
     contest = jsdata['cont']
     try:
-        contest = int(contest)
+        contest = int(contest)  # можешь итн - делай
         delete_contest(contest)
     except ValueError:
-        delete_contest(contest)
+        delete_contest(contest)  # не можешь - и стринг норм
     return '', 200
 
 @app.route('/submit', methods = ['POST', 'HEAD'])
 def get_submit():
     '''Recieves submitions'''
-    passwd = request.cookies.get('Access')
+    passwd = request.cookies.get('Access')   # Надо бы сделать проверку поизящнее, а то в каждой функции проверяю
     if not passwd or passwd != password():  # сикурити
         return '{"Access": "denied"}', 403
     jsdata = request.form
@@ -77,7 +77,7 @@ def get_submit():
 @app.route('/submittable', methods = ['POST', 'HEAD'])
 def get_table():
     '''Recieves new tables'''
-    passwd = request.cookies.get('Access')
+    passwd = request.cookies.get('Access')   # Надо бы сделать проверку поизящнее, а то в каждой функции проверяю
     if not passwd or passwd != password():  # сикурити
         return '{"Access": "denied"}', 403
     jsdata = request.get_json()

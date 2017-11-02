@@ -21,8 +21,9 @@ function addTableHandlers() // Просто бегаем по всем табл�
 		    cur_data = {cont: table, task: task, name: name};
 		    //$.post("/submit", {data: cur_data});
 		    //		    console.log(cur_data);
+		    cur_cell = this;
 		    var success = function(data) {
-			this.className = "table-done" + data;
+			cur_cell.className = "table-done" + data;
 		    }
 		    $.post("/submit", cur_data, success)
 			.fail(post_error);

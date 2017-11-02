@@ -7,7 +7,7 @@
 {% for cont in data %}
 <h3 class="header-name">{{cont.name}}</h3>
 <a href="{{cont.url}}">{{cont.url}}</a>
-<button type="button" onclick="delete_table({{loop.index}})">Delete</button>
+<button type="button" onclick="delete_table({{loop.index}})" class="button-neu w3-button">Delete</button>
 <table class="standings">
   <tr>
     <th></th>
