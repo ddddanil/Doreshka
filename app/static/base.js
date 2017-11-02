@@ -22,3 +22,13 @@ function post_error(xhr, status, error) {
 	alert("You are not authorised to make changes")
     }
 }
+
+function setSidebar()
+{
+    if(window.matchMedia("(orientation: landscape)").matches)
+    {
+	document.getElementById("side-nav").className += " w3-sidebar w3-bar-block ";
+    }
+}
+
+window.onload = setSidebar;

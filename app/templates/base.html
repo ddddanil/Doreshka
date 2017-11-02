@@ -10,7 +10,7 @@
   </head>
   <body>
     <div id="everything" class="w3-row">
-    <div id="side-nav" class="w3-hide-small w3-col w3-sidebar w3-bar-block s12 m4 l2">
+    <div id="side-nav" class="w3-mobile w3-col s12 m4 l2">
       {% for link in navigation %}
       {% if link.active %}
       <a href="{{link.url}}" class="side-active">{{link.name}}</a>
