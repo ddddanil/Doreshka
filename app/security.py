@@ -1,7 +1,7 @@
 from hashlib import sha1
 import json
 
-def get_val(value):
+def get_val(value):  # ничего не меняем. seсurity только мануально
     with open("app/security.json", 'r') as f:
         vals = json.loads(f.read())
         if value in vals:

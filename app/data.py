@@ -10,6 +10,60 @@ def writeData(data):
     with open("app/data.json", "w") as f:
         f.write(raw_data)
 
+def check_table(table):  # Проверяю таблицу аккуратно и ЗВЕРСКИ
+    burl = False
+    bname = False
+    bteam = True
+    btask = False
+    taskcnt = 0
+    if 'url' in table.keys():
+        burl = table['url'] != ''
+    if 'name' in table.keys():
+        bname = table['name'] != ''
+    if 'tasks' in table.keys():
+        if type(table['tasks']) == list:
+            btask = True
+            taskcnt = len(table['tasks'])
+    if 'team' in table.keys():
+        if type(table['team']) == list:
+            for person in table['team']:
+                if type(person) == dict:
+                    if 'name' in person.keys():
+                        if not person['name']:
+                            bteam = False
+                            break
+                    else:
+                        bteam = False
+                        break
+                    if 'done' in person.keys():
+                        if type(person['done']) == list:
+                            if len(person['done']) == taskcnt:
+                                for ts in person['done']:
+                                    if type(ts) == int:
+                                        if ts >= 0 and ts < 3:
+                                            bteam = True
+                                        else:
+                                            bteam = False
+                                            break
+                                    else:
+                                        bteam = False
+                                        break
+                            else:
+                                bteam = False
+                                break
+                        else:
+                            bteam = False
+                            break
+                    else:
+                        bteam = False
+                        break
+                else:
+                    bteam = False
+                    break
+    ans = burl and bname and btask and bteam
+    return ans
+            
+
 def add_contest(new_data):
     '''
     Эта функция записывает новый контест в конец data.json
@@ -17,9 +71,9 @@ def add_contest(new_data):
     '''
     data = loadData()
 #    new_data_enc = json.loads(new_data)
-    data.append(new_data)
-    writeData(data)
-    
+    if check_table(new_data):
+        data.append(new_data)
+        writeData(data)    
 
 def delete_contest(cont):
     '''
@@ -38,10 +92,16 @@ def new_submission(cont, name, task):
     '''
     Эта функция обновляет задачу как дорешивание.
     cont : номер контеста по порядку. Основывается на том что браузер получил список контестов в том же порядке (возможна бага)
-    name : имя сдающего. Неналичие данного в data.json -> contest ведет в никуда (возможна бага)
-    task : название сданного таска. Опять же не проверяется. (возможно бага)
+    name : имя сдающего.
+    task : название сданного таска.
     '''
     data = loadData()
+    bcont = cont < len(data)
+    if not bcont: return
+    bname = len([d for d in data[cont]['team'] if d['name'] == name])
+    if not bname: return
+    btask = task in data[cont]['tasks']
+    if not btask: return
     contest = data[cont]
     taskno = 0
     response = 0

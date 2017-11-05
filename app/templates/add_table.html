@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Add Contest{% endblock %}
 {% block head %}
-<script src="/static/add_table.js"></script>
+<script src="{{ url_for('static', filename='add_table.js') }}"></script>
 {% endblock %}
 {% block contents %}
 <h3 class="header-name">Add Contest</h3>

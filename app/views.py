@@ -27,10 +27,10 @@ def setActive(active):
             break
     return links
 
-def require_pass(func):
-    @wraps(func)
+def require_pass(func): # можно использовать как декоратор к любой view функции
+    @wraps(func)  #  официально магия
     def new_function(*args, **kwargs):
-        passwd = request.cookies.get('Access')   # Надо бы сделать проверку поизящнее, а то в каждой функции проверяю
+        passwd = request.cookies.get('Access')
         if not passwd or passwd != get_password():  # сикурити
             return '{"Access": "denied"}', 403
         return func(*args, **kwargs)
@@ -95,6 +95,6 @@ def get_pass():
     return response
 
 @app.errorhandler(404)
-def error404():
+def error404(e):
     '''Render 404 page'''
     return render_template("404error.html"), 404

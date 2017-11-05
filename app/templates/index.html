@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Index{% endblock %}
 {% block head %}
-<script src="/static/index.js">window.onload = addTableHandlers()</script>
+<script src="{{ url_for('static', filename='index.js') }}"></script>
 {% endblock %}
 {% block contents %}
 {% for cont in data %}

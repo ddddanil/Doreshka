@@ -1,11 +1,11 @@
 <html>
   <head>
     <title>{% block title %}{% endblock %} | Дорешка #/bin/bash</title>
-    <link rel="stylesheet" type="text/css" href="/static/index.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index.css') }}">
     <link rel="stylesheet" type="text/css" href="https://www.w3schools.com/w3css/4/w3pro.css">
     <!--<link rel="stylesheet" type="text/css" href="https://www.w3schools.com/w3css/4/w3mobile.css">-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="/static/base.js"></script>
+    <script src="{{ url_for('static', filename='base.js') }}"></script>
     {% block head %}{% endblock %}
   </head>
   <body>
