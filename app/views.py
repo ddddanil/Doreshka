@@ -1,7 +1,9 @@
 from app import app
 from flask import render_template, request, redirect, make_response
-from app.data import *
+from functools import wraps
 from hashlib import sha1
+from app.data import *
+from app.security import get_password
 
 def getLinks():
     '''
@@ -25,37 +27,36 @@ def setActive(active):
             break
     return links
 
-def password():
-    passwd = 'binbashrules'
-    hashpswd = sha1(passwd.encode('utf-8')).hexdigest()
-    return hashpswd
+def require_pass(func):
+    @wraps(func)
+    def new_function(*args, **kwargs):
+        passwd = request.cookies.get('Access')   # Надо бы сделать проверку поизящнее, а то в каждой функции проверяю
+        if not passwd or passwd != get_password():  # сикурити
+            return '{"Access": "denied"}', 403
+        return func(*args, **kwargs)
+    return new_function
 
 @app.route('/')
 @app.route('/index')
-@app.route('/index.html')
 def index():
     '''Renders index page'''
     contests = get_data()
     return render_template("index.html", data = contests, navigation = setActive('Index'))
 
 @app.route('/manual')
-@app.route('/manual.html')
 def manual():
     '''Renders page for manual'''
     return render_template("manual.html", navigation = setActive('Manual'))
 
 @app.route('/addtable')
-@app.route('/addtable.html')
 def addTable():
     '''Renders add_table page'''
     return render_template("add_table.html", navigation = setActive('Add Contest'));
 
 @app.route('/deletetable', methods = ['POST', 'HEAD'])
+@require_pass
 def delete_table():
     '''Deletes contest'''
-    passwd = request.cookies.get('Access')   # Надо бы сделать проверку поизящнее, а то в каждой функции проверяю
-    if not passwd or passwd != password():  # сикурити
-        return '{"Access": "denied"}', 403
     jsdata = request.form
     contest = jsdata['cont']
     try:
@@ -66,20 +67,16 @@ def delete_table():
     return '', 200
 
 @app.route('/submit', methods = ['POST', 'HEAD'])
+@require_pass
 def get_submit():
     '''Recieves submitions'''
-    passwd = request.cookies.get('Access')   # Надо бы сделать проверку поизящнее, а то в каждой функции проверяю
-    if not passwd or passwd != password():  # сикурити
-        return '{"Access": "denied"}', 403
     jsdata = request.form
     return new_submission(int(jsdata['cont']), jsdata['name'], jsdata['task'])
 
 @app.route('/submittable', methods = ['POST', 'HEAD'])
+@require_pass
 def get_table():
     '''Recieves new tables'''
-    passwd = request.cookies.get('Access')   # Надо бы сделать проверку поизящнее, а то в каждой функции проверяю
-    if not passwd or passwd != password():  # сикурити
-        return '{"Access": "denied"}', 403
     jsdata = request.get_json()
     if jsdata:
         add_contest(jsdata)
@@ -96,3 +93,8 @@ def get_pass():
     hashpswd = sha1(passwd.encode('utf-8')).hexdigest()
     response.set_cookie('Access', hashpswd)
     return response
+
+@app.errorhandler(404)
+def error404():
+    '''Render 404 page'''
+    return render_template("404error.html"), 404

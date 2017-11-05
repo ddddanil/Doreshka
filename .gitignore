@@ -1,5 +1,7 @@
 # files to ignore
 *~
+*.pyc
 __pycache__
 data.json
 backup.json
+security.json
