@@ -5,25 +5,33 @@
 {% endblock %}
 {% block contents %}
 {% for cont in data %}
-<h3 class="header-name">{{cont.name}}</h3>
-<a href="{{cont.url}}">{{cont.url}}</a>
-<button type="button" onclick="delete_table({{loop.index}})" class="button-neu w3-button">Delete</button>
-<table class="standings">
-  <tr>
-    <th></th>
-    {% for task in cont.tasks %}
-    <th class="table-task">{{task}}</th>
-    {% endfor %}
-  </tr>
-  {% for pers in cont.team %}
+<div class="w3-container">
+  <h3 class="header-name">{{cont.name}}</h3>
+  <div>
+    <div class="w3-cell w3-cell-middle">
+      <a href="{{cont.url}}">{{cont.url}}</a>
+    </div>
+    <div class="w3-cell w3-cell-middle">
+      <button type="button" onclick="delete_table({{loop.index}})" class="button-neu w3-button">Delete</button>
+    </div>
+  </div>
+  <table class="standings">
+    <tr>
+      <th></th>
+      {% for task in cont.tasks %}
+      <th class="table-task">{{task}}</th>
+      {% endfor %}
+    </tr>
+    {% for pers in cont.team %}
     <tr>
       <th class="table-name">{{pers.name}}</th>
       {% for task in pers.done %}
-        <th class="table-done{{task}}"></th>
+      <th class="table-done{{task}}"></th>
       {% endfor %}
     </tr>
-  {% endfor %}
-</table>
-<hr>
+    {% endfor %}
+  </table>
+  <hr>
+</div>
 {% endfor %}
 {% endblock %}
