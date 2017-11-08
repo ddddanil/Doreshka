@@ -5,3 +5,6 @@ __pycache__
 data.json
 backup.json
 security.json
+*.soc
+*gunicorn*
+flask
