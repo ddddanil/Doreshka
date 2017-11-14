@@ -5,7 +5,7 @@
 {% endblock %}
 {% block contents %}
 {% for cont in data %}
-<div class="w3-container">
+<div class="w3-container standings-container">
   <h3 class="header-name">{{cont.name}}</h3>
   <div>
     <div class="w3-cell w3-cell-middle">
@@ -13,6 +13,12 @@
     </div>
     <div class="w3-cell w3-cell-middle">
       <button type="button" onclick="delete_table({{loop.index}})" class="button-neu w3-button">Delete</button>
+    </div>
+    <div class="w3-cell w3-cell-middle">
+      <form action="/edit" class="not-form">
+	<input type="text" value="{{cont.id}}" class="hideme" name="id">
+	<input type="submit" onclick="edit_table({{loop.index}})" class="button-neu w3-button" value="Edit">
+      </form>
     </div>
   </div>
   <table class="standings">
@@ -24,8 +30,8 @@
     </tr>
     {% for pers in cont.team %}
     <tr>
-      <th class="table-name">{{pers.name}}</th>
-      {% for task in pers.done %}
+      <th class="table-name">{{pers}}</th>
+      {% for task in cont.done[loop.index - 1] %}
       <th class="table-done{{task}}"></th>
       {% endfor %}
     </tr>

@@ -8,3 +8,4 @@ security.json
 *.soc
 *gunicorn*
 flask
+*.sh

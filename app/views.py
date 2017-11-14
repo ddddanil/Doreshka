@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from app import app
 from flask import render_template, request, redirect, make_response
 from functools import wraps
@@ -5,7 +6,7 @@ from hashlib import sha1
 from app.data import *
 from app.security import get_password
 
-def getLinks():
+def get_links():
     '''
     Карта сайта для навигации. Не забывать обновлять.
     '''
@@ -19,12 +20,14 @@ def setActive(active):
     '''
     Отдает карту с помеченой активной ссылкойю
     active : название ссылки которую надо пометить.
+             ничего не выделяет если None
     '''
-    links = getLinks()
-    for link in links:
-        if link['name'] == active:
-            link['active'] = True
-            break
+    links = get_links()
+    if active != None:
+        for link in links:
+            if link['name'] == active:
+                link['active'] = True
+                break
     return links
 
 def require_pass(func): # можно использовать как декоратор к любой view функции
@@ -32,7 +35,10 @@ def require_pass(func): # можно использовать как декор�
     def new_function(*args, **kwargs):
         passwd = request.cookies.get('Access')
         if not passwd or passwd != get_password():  # сикурити
-            return '{"Access": "denied"}', 403
+            if request.method == 'POST':
+                return '{"Access": "denied"}', 403
+            else:
+                return render_template("403error.html")
         return func(*args, **kwargs)
     return new_function
 
@@ -40,7 +46,7 @@ def require_pass(func): # можно использовать как декор�
 @app.route('/index')
 def index():
     '''Renders index page'''
-    contests = get_data()
+    contests = get_data(None)
     return render_template("index.html", data = contests, navigation = setActive('Index'))
 
 @app.route('/manual')
@@ -50,8 +56,8 @@ def manual():
 
 @app.route('/addtable')
 def addTable():
-    '''Renders add_table page'''
-    return render_template("add_table.html", navigation = setActive('Add Contest'));
+    '''Renders edit table page with empty table'''
+    return render_template("edittable.html", navigation = setActive('Add Contest'), edit_table = -1);
 
 @app.route('/deletetable', methods = ['POST', 'HEAD'])
 @require_pass
@@ -60,22 +66,32 @@ def delete_table():
     jsdata = request.form
     contest = jsdata['cont']
     try:
-        contest = int(contest)  # можешь итн - делай
+        contest = int(contest)  # можешь инт - делай
         delete_contest(contest)
     except ValueError:
         delete_contest(contest)  # не можешь - и стринг норм
     return '', 200
+
+@app.route('/edit')
+def edit_page():
+    '''Renders edit table page with initialized table'''
+    edittable = request.args['id']
+    return render_template("edittable.html", navigation = setActive(None), edit_table = edittable)
 
 @app.route('/submit', methods = ['POST', 'HEAD'])
 @require_pass
 def get_submit():
     '''Recieves submitions'''
     jsdata = request.form
-    return new_submission(int(jsdata['cont']), jsdata['name'], jsdata['task'])
+    resp = new_submission(jsdata['cont'], jsdata['name'], jsdata['task'])
+    if not resp:
+        return '{"done": 0}', 422
+    else:
+        return resp
 
 @app.route('/submittable', methods = ['POST', 'HEAD'])
 @require_pass
-def get_table():
+def submit_table():
     '''Recieves new tables'''
     jsdata = request.get_json()
     if jsdata:
@@ -93,6 +109,25 @@ def get_pass():
     hashpswd = sha1(passwd.encode('utf-8')).hexdigest()
     response.set_cookie('Access', hashpswd)
     return response
+
+@app.route('/gettable', methods = ['POST', 'HEAD'])
+def get_table():
+    '''Responds with a table with specified id'''
+    jsdata = request.get_json()
+    jsform = request.form
+    table = -1
+    if jsdata == None:
+        if jsform == None:
+            return '{"done": 0}', 422
+        else:
+            table = jsform['table']
+    else:
+        table = jsdata['table']
+    resp = get_data(table)
+    if not resp:
+        return "{'done': 0}", 422
+    else:
+        return resp
 
 @app.errorhandler(404)
 def error404(e):

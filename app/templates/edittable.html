@@ -1,26 +1,27 @@
 {% extends "base.html" %}
 {% block title %}Add Contest{% endblock %}
 {% block head %}
-<script src="{{ url_for('static', filename='add_table.js') }}"></script>
+<script src="{{ url_for('static', filename='edittable.js') }}"></script>
+<script>edit = {{ edit_table }};</script>
 {% endblock %}
 {% block contents %}
 <h3 class="header-name">Add Contest</h3>
 <form name="set_name">
   <input type="text" name="cont_name" placeholder="Name" required="True">
-  <input type="button" name="set" value="Set" onclick="return set_new_name()" class="button-neu w3-button">
+  <input type="button" name="set" value="Set" onclick="standing.set_name()" class="button-neu w3-button">
 </form>
 <form name="set_url">
   <input type="text" name="cont_url" placeholder="URL" required="True">
-  <input type="button" name="set" value="Set" onclick="return set_new_url()" class="button-neu w3-button">
+  <input type="button" name="set" value="Set" onclick="standing.set_url()" class="button-neu w3-button">
 </form>
 <hr>
 <form name="add_task">
   <input type="text" name="task_name" placeholder="Task" required="True">
-  <input type="button" name="add" value="Add" onclick="return add_new_task()" class="button-neu w3-button">
+  <input type="button" name="add" value="Add" onclick="standing.add_task()" class="button-neu w3-button">
 </form>
 <form name="add_person">
   <input type="text" name="pers_name" placeholder="Person name" required="True">
-  <input type="button" name="add" value="Add" onclick="return add_new_person()" class="button-neu w3-button">
+  <input type="button" name="add" value="Add" onclick="standing.add_person()" class="button-neu w3-button">
 </form>
 <table class="standings" id="the-table">
   <tr>
@@ -29,6 +30,6 @@
 </table>
 <br>
 <form name="submit_table">
-  <input type="button" name="submit" value="Submit Contest" onclick="return submit_table_post()" class="button-neu w3-button">
+  <input type="button" name="submit" value="Submit Contest" onclick="standing.submit()" class="button-neu w3-button">
 </form>
 {% endblock %}

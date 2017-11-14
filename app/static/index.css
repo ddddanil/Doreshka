@@ -22,6 +22,20 @@ a.side-active {
     text: bold;
 }
 
+.hideme {
+    visibility: hidden;
+    width: 0px;
+    height: 0px;
+    margin: 0px;
+    border-width: 0px;
+    padding: 0px;
+    position: fixed;
+}
+
+form.not-form {
+    margin: 0px;
+}
+
 div#content {
     padding: 0px 0px 0px 5px;
     float: right;
