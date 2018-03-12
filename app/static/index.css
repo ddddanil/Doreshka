@@ -52,6 +52,8 @@ table.standings {
 th.table-task, td.table-task {
     font-family: sans-serif;
     text-align: center;
+    overflow: hidden;
+    line-height: 1em;
 }
 
 th.table-name, td.table-name {

@@ -2,9 +2,7 @@
 *~
 *.pyc
 __pycache__
-data.json
-backup.json
-security.json
+*.json
 *.soc
 *gunicorn*
 flask
