@@ -93,7 +93,7 @@ def add_contest(new_data):
             new_id = maxid + 1
 #            print("Max", maxid, "new id", new_id)
             new_data['id'] = str(new_id)
-            data.append(new_data)
+            data.insert(0, new_data)
         else:
 #            print("Update")
             change = 0
